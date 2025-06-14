@@ -7,7 +7,7 @@ from typing import Optional
 from groq import Groq
 
 # ⚠️ Secure your key using environment variables in production!
-client = Groq(api_key="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")
+client = Groq(api_key="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")
 
 chat_collection = db["chats"]
 
@@ -23,7 +23,7 @@ def generate_answer(question: str) -> str:
         stream=True,
         stop=None,
     )
-
+    print("completion = ",completion)
     answer = ""
     for chunk in completion:
         answer += chunk.choices[0].delta.content or ""
@@ -33,7 +33,6 @@ def generate_answer(question: str) -> str:
 
 async def save_chat(chat: Chat):
     chat_dict = chat.dict()
-
     try:
         chat_dict["user_id"] = ObjectId(chat.user_id)
     except Exception:
@@ -43,6 +42,7 @@ async def save_chat(chat: Chat):
 
     # Generate LLM response in background thread
     answer = await run_in_threadpool(generate_answer, chat.message)
+    print("Answer = ",answer)
     chat_dict["response"] = answer
 
     result = chat_collection.insert_one(chat_dict)

@@ -12,7 +12,12 @@ load_dotenv()
 
 
 # ⚠️ Secure your key using environment variables in production!
-client = Groq(api_key=os.getenv("groq_api"))
+# Make sure API key is set
+api_key = os.getenv("groq_api")
+if not api_key:
+    raise ValueError("Missing 'groq_api' environment variable")
+
+client = Groq(api_key=api_key)
 
 chat_collection = db["chats"]
 

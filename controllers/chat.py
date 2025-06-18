@@ -5,9 +5,14 @@ from bson import ObjectId
 from datetime import datetime, timedelta
 from typing import Optional
 from groq import Groq
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # ⚠️ Secure your key using environment variables in production!
-client = Groq(api_key="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")
+client = Groq(api_key=os.getenv("groq_api"))
 
 chat_collection = db["chats"]
 

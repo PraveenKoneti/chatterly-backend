@@ -8,12 +8,12 @@ from groq import Groq
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(dotenv_path=".env")
 
 
 # ⚠️ Secure your key using environment variables in production!
 # Make sure API key is set
-api_key = os.getenv("groq_api")
+api_key = os.getenv("groq_apikey")
 if not api_key:
     raise ValueError("Missing 'groq_api' environment variable")
 
@@ -33,7 +33,6 @@ def generate_answer(question: str) -> str:
         stream=True,
         stop=None,
     )
-    print("completion = ",completion)
     answer = ""
     for chunk in completion:
         answer += chunk.choices[0].delta.content or ""
@@ -52,7 +51,6 @@ async def save_chat(chat: Chat):
 
     # Generate LLM response in background thread
     answer = await run_in_threadpool(generate_answer, chat.message)
-    print("Answer = ",answer)
     chat_dict["response"] = answer
 
     result = chat_collection.insert_one(chat_dict)

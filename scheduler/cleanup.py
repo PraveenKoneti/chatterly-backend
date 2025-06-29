@@ -12,9 +12,9 @@ load_dotenv()
 MONGODB_URL = os.getenv("MONGODB_URL")  # e.g. "mongodb://localhost:27017"
 MONGO_DB = os.getenv("MONGO_DB")        # e.g. "chatterly_db"
 
-# Validate env vars
-if not MONGODB_URL or not MONGO_DB:
-    raise EnvironmentError("Missing MONGODB_URL or MONGO_DB in .env file")
+# # Validate env vars
+# if not MONGODB_URL or not MONGO_DB:
+#     raise EnvironmentError("Missing MONGODB_URL or MONGO_DB in .env file")
 
 # Connect to MongoDB
 client = MongoClient(MONGODB_URL)
